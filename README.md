@@ -48,3 +48,7 @@ Note: The following scraper make use of OpenAI GPT models, so in order to use th
 - Following this segmentation, the content is passed through the LLMs to extract the most pertinent information. This approach makes the scraper resilient to dynamic changes in web pages, enhancing its ability to capture meaningful data from complex and evolving web environments.
 
 - The extracted content is then stored in the database for future use. Finally, we apply a similarity search algorithm to identify the most relevant content based on the user's query, ensuring precise and efficient retrieval of information.
+
+## Further Improvements
+- The client can be further optimized to handle URLs more asynchronously, enhancing its ability to process large-scale queries efficiently.
+- Error handling mechanisms can be implemented to address issues such as broken links or inaccessible web pages, ensuring the client's robustness in handling diverse web environments.
