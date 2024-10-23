@@ -4,6 +4,14 @@ This repository implements an intelligent web scrapper that takes in a query val
 
 ## Usage
 
+You can install the package using the following command:
+
+```bash
+pip install -e .
+```
+
+After installing the package, you can use the following code to scrape the web and get the relevant content based on the query:
+
 ```python
 from Rufus import client
 
@@ -27,6 +35,8 @@ print(results)
 ```
 
 ## Approach and Explanation
+Note: The following scraper make use of OpenAI GPT models, so in order to use the scraper, you need to have an OpenAI API key. You can take a look at quickstart guide [here](https://platform.openai.com/docs/quickstart)
+
 - This client is designed with large-scale queries in mind. Most of the functions implemented in the `Client` class are capable of running asynchronously, ensuring efficient handling of extensive operations. Additionally, the underlying database is optimized to process large-scale queries seamlessly.
 
 - The web loader leverages `playwright` to load and extract content from web pages. A key advantage of using `playwright` is its ability to simulate a real user's experience, allowing it to load dynamic content that might not be accessible through simpler web scraping tools.
