@@ -2,7 +2,7 @@
 
 This repository implements an intelligent web scrapper that takes in a query value amd relevant sites, scraps the site and return the relevant content based on the query for downstream tasks such as RAG.
 
-# Usage
+## Usage
 
 ```python
 from Rufus import client
@@ -26,11 +26,15 @@ for query in queries:
 print(results)
 ```
 
-# Approach
-- The following client is built by taking large scale queries into mind. Most of the functions implemented in the `Client` can run asynchronously and the database is also built to handle large scale queries.
-- The web loader uses `playwright` to load the webpage and extract the content. One of the main reasons for using `playwright` is that it can load the webpage as a user would and hence can load the dynamic content as well.
-- Then after loading the webpage, we filter out the nested urls from the webpage with the help of LLMs and based on queries extract the most relevant nested urls.
-- After retreiving the nested web page and the current web pages, we recusrsively split the content into smaller chunks. This has been done to make sure that the LLMs doesn't lose context in the middle of the content and can give better results.
-- After spilliting, the content is passed through the LLMs to extract the most relevant content out of the corpus. This has been done in order to make the scrapper robust to dynamic changes in the webpage.
-- The extracted content is then stored in the database for further use.
-- Finally, we use the similarity search to find the most relevant content based on the query.
+## Approach and Explanation
+- This client is designed with large-scale queries in mind. Most of the functions implemented in the `Client` class are capable of running asynchronously, ensuring efficient handling of extensive operations. Additionally, the underlying database is optimized to process large-scale queries seamlessly.
+
+- The web loader leverages `playwright` to load and extract content from web pages. A key advantage of using `playwright` is its ability to simulate a real user's experience, allowing it to load dynamic content that might not be accessible through simpler web scraping tools.
+
+- Once a web page is loaded, we employ Large Language Models (LLMs) to filter out nested URLs. The LLMs analyze the content in relation to the query, identifying and extracting the most relevant nested URLs for further processing.
+
+- After retrieving both the nested and original web pages, we recursively split the content into smaller chunks. This step ensures that LLMs maintain context throughout the content processing, leading to more accurate and relevant outputs.
+
+- Following this segmentation, the content is passed through the LLMs to extract the most pertinent information. This approach makes the scraper resilient to dynamic changes in web pages, enhancing its ability to capture meaningful data from complex and evolving web environments.
+
+- The extracted content is then stored in the database for future use. Finally, we apply a similarity search algorithm to identify the most relevant content based on the user's query, ensuring precise and efficient retrieval of information.

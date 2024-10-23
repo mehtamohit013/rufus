@@ -21,10 +21,22 @@ queries = ["What is an agent in AI?"]
 
 class Client:
     def __init__(
-        self, urls, queries, llm="gpt-4o-mini", vectorstore_path="./chroma_db_oai"
+        self,
+        urls,
+        queries,
+        llm="gpt-4o-mini",
+        vectorstore_path="./chroma_db_oai",
+        temperature=0,
+        chunk_size=10000,
+        chunk_overlap=100,
     ):
         self.urls = urls
         self.queries = queries
+
+        self.temperature = temperature
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        self.llm = llm
 
         # Defining the schema of how we want to extract the information
         self.schema = {
@@ -40,11 +52,11 @@ class Client:
             },
             "required": ["url"],
             "description": "Selects the relevant URLs from the webpage with maximum of `max_selected_urls` with context dependent on the query",
-            "queries": queries,
+            "queries": self.queries,
             "max_selected_urls": 5,
         }
 
-        self.llm = ChatOpenAI(temperature=0, model="gpt-4o-mini")
+        self.llm = ChatOpenAI(temperature=self.temperature, model=self.llm)
         self.vectorstore = Chroma(
             embedding_function=OpenAIEmbeddings(), persist_directory=vectorstore_path
         )
@@ -96,12 +108,12 @@ class Client:
 
         return transformer.transform_documents(docs_transformed) + relevant_nested_pages
 
-    def chunk_webpage(self, docs, chunk_size=10000, chunk_overlap=100):
+    def chunk_webpage(self, docs):
         """
         The function chunks the webpage into smaller parts with overlap between different chunks
         """
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size, chunk_overlap=chunk_overlap
+            chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
         )
         splits = splitter.split_documents(docs)
         return splits
@@ -134,14 +146,14 @@ class Client:
                 )
                 self.vectorstore.add_documents(ids=[dt[0]["title"]], documents=[docs])
             except Exception as e:
-                print(e)
+                print("Exception occured while storing data: ", e)
 
 
 if __name__ == "__main__":
     extracted_data = []
     client = Client(urls, queries)
-    for i in range(len(urls)):
-        docs = client.load_page(urls[i])
+    for idx in range(len(urls)):
+        docs = client.load_page(urls[idx])
         splits = client.chunk_webpage(docs)
         extracted = client.extract_content(splits)
         client.store_data(extracted)
