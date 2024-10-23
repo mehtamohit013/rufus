@@ -49,6 +49,12 @@ Note: The following scraper make use of OpenAI GPT models, so in order to use th
 
 - The extracted content is then stored in the database for future use. Finally, we apply a similarity search algorithm to identify the most relevant content based on the user's query, ensuring precise and efficient retrieval of information.
 
+## Challenges faced
+- One of the primary challenges faced was handling of nested URLs and how to make a robust and effective scraper in context of dynamic web pages.
+- Another challenge was to ensure that the scraper and the LLM could handle large corpus of text data effectively and efficiently.
+- The scalibility of the system was also a challenge, as the system should be able to handle large-scale queries and process them in a timely manner.
+
 ## Further Improvements
 - The client can be further optimized to handle URLs more asynchronously, enhancing its ability to process large-scale queries efficiently.
 - Error handling mechanisms can be implemented to address issues such as broken links or inaccessible web pages, ensuring the client's robustness in handling diverse web environments.
+- Database could be further optimized to handle large corpus of text data by specifying the parameters of Hierarchical Navigable Small World(HNSW) algorithm which is commonly used for nearest neighbor search.
